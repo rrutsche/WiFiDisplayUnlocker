@@ -1,10 +1,7 @@
 package de.rutsche.wifidisplayunlock.view;
 
-import de.rutsche.wifidisplayunlock.R;
-import de.rutsche.wifidisplayunlock.WifiConfig;
-import de.rutsche.wifidisplayunlock.R.id;
-import de.rutsche.wifidisplayunlock.R.layout;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -15,26 +12,33 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import de.rutsche.wifidisplayunlock.R;
+import de.rutsche.wifidisplayunlock.WifiConfig;
+import de.rutsche.wifidisplayunlock.service.ServiceManager;
+import de.rutsche.wifidisplayunlock.service.WifiService;
 
-public class LayoutOne extends ListFragment {
+public class WifiListFragment extends ListFragment {
 
-    private ViewPagerActivity activity;
     private WifiConfig[] configs;
 
     public static Fragment newInstance(Context context) {
-        LayoutOne f = new LayoutOne();
+        WifiListFragment f = new WifiListFragment();
         return f;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = (ViewPagerActivity) getActivity();
-        configs = activity.getConfigs();
+        getActivity()
+                .startService(new Intent(getActivity(), WifiService.class));
+        configs = ServiceManager.getInstance().getConfigs();
 
-        ListAdapter myListAdapter = new ArrayAdapter<WifiConfig>(getActivity(),
-                R.layout.list_item, R.id.textview_listitem, configs);
-        setListAdapter(myListAdapter);
+        if (configs.length > 0) {
+            ListAdapter myListAdapter = new ArrayAdapter<WifiConfig>(
+                    getActivity(), R.layout.list_item, R.id.textview_listitem,
+                    configs);
+            setListAdapter(myListAdapter);
+        }
     }
 
     @Override

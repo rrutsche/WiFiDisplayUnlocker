@@ -1,7 +1,7 @@
 package de.rutsche.wifidisplayunlock;
 
-import de.rutsche.wifidisplayunlock.view.LayoutOne;
-import de.rutsche.wifidisplayunlock.view.LayoutTwo;
+import de.rutsche.wifidisplayunlock.view.WifiListFragment;
+import de.rutsche.wifidisplayunlock.view.SettingsFragment;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,10 +22,10 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         Fragment f = new Fragment();
         switch (position) {
         case 0:
-            f = LayoutOne.newInstance(adapterContext);
+            f = WifiListFragment.newInstance(adapterContext);
             break;
         case 1:
-            f = LayoutTwo.newInstance(adapterContext);
+            f = SettingsFragment.newInstance(adapterContext);
             break;
         }
         return f;

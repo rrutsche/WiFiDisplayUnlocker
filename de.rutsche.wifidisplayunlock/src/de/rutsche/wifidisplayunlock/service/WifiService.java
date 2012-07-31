@@ -3,6 +3,8 @@ package de.rutsche.wifidisplayunlock.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.KeyguardManager;
+import android.app.KeyguardManager.KeyguardLock;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -22,6 +24,8 @@ public class WifiService extends Service {
 
     private List<WifiConfiguration> configs;
     private ArrayList<WifiConfig> confs;
+    private KeyguardManager keyguardManager;
+    private KeyguardLock lock;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -33,13 +37,7 @@ public class WifiService extends Service {
         super.onCreate();
         // Setup WiFi
         wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-
-        configs = wifi.getConfiguredNetworks();
-        confs = new ArrayList<WifiConfig>();
-        for (WifiConfiguration config : configs) {
-            confs.add(new WifiConfig(config.SSID, config.networkId));
-            // Log.w(FLAG, config.toString());
-        }
+        ServiceManager.getInstance().setWifiManager(wifi);
 
         // Register Broadcast Receiver
         if (receiver == null) {
@@ -48,12 +46,17 @@ public class WifiService extends Service {
 
         registerReceiver(receiver, new IntentFilter(
                 WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+
+        keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
+        lock = keyguardManager.newKeyguardLock(KEYGUARD_SERVICE);
+        lock.disableKeyguard();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // TODO enable keyguard
+        unregisterReceiver(receiver);
+        lock.reenableKeyguard();
     }
 
     @Override
@@ -70,5 +73,4 @@ public class WifiService extends Service {
     public WifiManager getWifi() {
         return wifi;
     }
-
 }

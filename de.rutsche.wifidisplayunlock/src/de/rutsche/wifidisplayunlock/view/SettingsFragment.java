@@ -9,10 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class LayoutTwo extends Fragment{
+public class SettingsFragment extends Fragment{
 	
 	public static Fragment newInstance(Context context) {
-        LayoutTwo f = new LayoutTwo();
+        SettingsFragment f = new SettingsFragment();
  
         return f;
     }
