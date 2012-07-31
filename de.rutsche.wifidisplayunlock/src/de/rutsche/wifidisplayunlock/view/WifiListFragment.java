@@ -49,9 +49,8 @@ public class WifiListFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        // TODO Auto-generated method stub
-        Toast.makeText(getActivity(),
-                getListView().getItemAtPosition(position).toString(),
-                Toast.LENGTH_LONG).show();
+        Toast toast = Toast.makeText(getActivity(), getListView()
+                .getItemAtPosition(position).toString(), Toast.LENGTH_LONG);
+        toast.show();
     }
 }

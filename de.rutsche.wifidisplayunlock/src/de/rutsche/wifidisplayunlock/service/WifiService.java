@@ -10,6 +10,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
@@ -35,6 +36,7 @@ public class WifiService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
         // Setup WiFi
         wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         ServiceManager.getInstance().setWifiManager(wifi);
@@ -44,8 +46,11 @@ public class WifiService extends Service {
             receiver = new WifiReceiver(this);
         }
 
-        registerReceiver(receiver, new IntentFilter(
-                WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+        intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(receiver, intentFilter);
 
         keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
         lock = keyguardManager.newKeyguardLock(KEYGUARD_SERVICE);
