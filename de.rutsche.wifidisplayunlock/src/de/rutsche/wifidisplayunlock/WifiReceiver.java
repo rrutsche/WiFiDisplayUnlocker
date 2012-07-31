@@ -1,5 +1,7 @@
 package de.rutsche.wifidisplayunlock;
 
+import android.app.KeyguardManager;
+import android.app.KeyguardManager.KeyguardLock;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -7,15 +9,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.widget.Toast;
-import de.rutsche.wifidisplayunlock.service.WifiService;
 
 public class WifiReceiver extends BroadcastReceiver {
 
-    WifiService wifiDemo;
+    private KeyguardManager keyguardManager;
+    private KeyguardLock lock;
 
-    public WifiReceiver(WifiService wifiService) {
+    public WifiReceiver() {
         super();
-        this.wifiDemo = wifiService;
     }
 
     @Override
@@ -34,14 +35,24 @@ public class WifiReceiver extends BroadcastReceiver {
 
         if (networkInfo != null
                 && networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+            // connection active
             Toast connectToast = Toast.makeText(c, "connection established",
                     Toast.LENGTH_SHORT);
             connectToast.show();
+            keyguardManager = (KeyguardManager) c
+                    .getSystemService(Context.KEYGUARD_SERVICE);
+            lock = keyguardManager.newKeyguardLock(Context.KEYGUARD_SERVICE);
+            lock.disableKeyguard();
         } else if (networkInfo != null
                 && networkInfo.getType() != ConnectivityManager.TYPE_WIFI) {
+            // no connection
             Toast connectToast = Toast.makeText(c, "no connection",
                     Toast.LENGTH_SHORT);
             connectToast.show();
+            keyguardManager = (KeyguardManager) c
+                    .getSystemService(Context.KEYGUARD_SERVICE);
+            lock = keyguardManager.newKeyguardLock(Context.KEYGUARD_SERVICE);
+            lock.reenableKeyguard();
         }
     }
 }
