@@ -5,12 +5,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.widget.Toast;
 import de.rutsche.wifidisplayunlock.R;
 import de.rutsche.wifidisplayunlock.service.WifiService;
 
 public class ViewPagerActivity extends PreferenceActivity implements
         SharedPreferences.OnSharedPreferenceChangeListener {
+
+    private SharedPreferences prefs;
+    private Intent intent;
 
     /** Called when the activity is first created. */
     @Override
@@ -18,25 +20,32 @@ public class ViewPagerActivity extends PreferenceActivity implements
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
-        SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(this);
-        boolean serviceChecked = prefs.getBoolean("pref_sync", true);
-
-        if (serviceChecked) {
-            startService(new Intent(this, WifiService.class));
-        } else {
-            stopService(new Intent(this, WifiService.class));
+        if (intent == null) {
+            intent = new Intent(this, WifiService.class);
         }
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.registerOnSharedPreferenceChangeListener(this);
+        boolean serviceChecked = prefs.getBoolean("pref_sync", true);
+
+        handleServiceActivation(serviceChecked);
+
+    }
+
+    private void handleServiceActivation(boolean serviceChecked) {
+        if (serviceChecked) {
+            startService(intent);
+        } else {
+            stopService(intent);
+        }
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
             String key) {
 
-        // boolean value = sharedPreferences.getBoolean("pref_sync", true);
-
-        Toast toast = Toast.makeText(this, "prefs changed", Toast.LENGTH_SHORT);
-        toast.show();
+        boolean serviceChecked = sharedPreferences
+                .getBoolean("pref_sync", true);
+        handleServiceActivation(serviceChecked);
     }
 }
