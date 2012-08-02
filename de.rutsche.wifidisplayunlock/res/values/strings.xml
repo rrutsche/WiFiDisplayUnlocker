@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, viewpagerActivity!</string>
     <string name="app_name">Wifi DisplayUnlocker</string>
     <color name="white">#FFFFFF</color>
-    <color name="d_gray">#444444</color>
     <color name="black">#000000</color>
-    <color name="l_blue">#29ABE2</color>
-    <string name="no_data">No data</string>
     <string name="wifi">WiFi</string>
     <string name="settings">Settings</string>
-
+    <string name="pref_activate">Activate Service</string>
+    <string name="pref_activate_summ">disable screen lock in wifi</string>
+	<string name="pref_title">WiFi Display Unlock Settings</string>
+    
 </resources>

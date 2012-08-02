@@ -1,28 +1,20 @@
 package de.rutsche.wifidisplayunlock.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.util.Log;
-import de.rutsche.wifidisplayunlock.WifiConfig;
 import de.rutsche.wifidisplayunlock.WifiReceiver;
 
 public class WifiService extends Service {
 
     private WifiManager wifi;
     private BroadcastReceiver receiver;
-
-    private List<WifiConfiguration> configs;
-    private ArrayList<WifiConfig> confs;
 
     @Override
     public IBinder onBind(Intent intent) {

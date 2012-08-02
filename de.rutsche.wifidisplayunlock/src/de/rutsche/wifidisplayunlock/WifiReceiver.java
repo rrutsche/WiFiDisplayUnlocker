@@ -24,6 +24,12 @@ public class WifiReceiver extends BroadcastReceiver {
 
         String action = intent.getAction();
 
+        keyguardManager = (KeyguardManager) c
+                .getSystemService(Context.KEYGUARD_SERVICE);
+        if (lock == null) {
+            lock = keyguardManager.newKeyguardLock(Context.KEYGUARD_SERVICE);
+        }
+
         if (WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(action)) {
             Toast scanToast = Toast.makeText(c, "scan results ready",
                     Toast.LENGTH_SHORT);
@@ -39,9 +45,6 @@ public class WifiReceiver extends BroadcastReceiver {
             Toast connectToast = Toast.makeText(c, "connection established",
                     Toast.LENGTH_SHORT);
             connectToast.show();
-            keyguardManager = (KeyguardManager) c
-                    .getSystemService(Context.KEYGUARD_SERVICE);
-            lock = keyguardManager.newKeyguardLock(Context.KEYGUARD_SERVICE);
             lock.disableKeyguard();
         } else if (networkInfo != null
                 && networkInfo.getType() != ConnectivityManager.TYPE_WIFI) {
@@ -49,9 +52,6 @@ public class WifiReceiver extends BroadcastReceiver {
             Toast connectToast = Toast.makeText(c, "no connection",
                     Toast.LENGTH_SHORT);
             connectToast.show();
-            keyguardManager = (KeyguardManager) c
-                    .getSystemService(Context.KEYGUARD_SERVICE);
-            lock = keyguardManager.newKeyguardLock(Context.KEYGUARD_SERVICE);
             lock.reenableKeyguard();
         }
     }
