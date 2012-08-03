@@ -8,8 +8,8 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
-import android.util.Log;
 import de.rutsche.wifidisplayunlock.WifiReceiver;
+import de.rutsche.wifidisplayunlock.util.ApplicationManager;
 
 public class WifiService extends Service {
 
@@ -27,7 +27,6 @@ public class WifiService extends Service {
 
         // Setup WiFi
         wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-        ServiceManager.getInstance().setWifiManager(wifi);
 
         // Register Broadcast Receiver
         if (receiver == null) {
@@ -46,6 +45,7 @@ public class WifiService extends Service {
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(receiver);
+        ApplicationManager.getInstance().getLock().reenableKeyguard();
     }
 
     @Override
@@ -55,7 +55,6 @@ public class WifiService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("LocalService", "Received start id " + startId + ": " + intent);
         return START_STICKY;
     }
 
