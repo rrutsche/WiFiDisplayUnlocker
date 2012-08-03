@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 import de.rutsche.wifidisplayunlock.R;
 import de.rutsche.wifidisplayunlock.service.WifiService;
 
-public class ViewPagerActivity extends PreferenceActivity implements
+public class MainActivity extends PreferenceActivity implements
         SharedPreferences.OnSharedPreferenceChangeListener {
 
     private SharedPreferences prefs;
@@ -26,7 +26,8 @@ public class ViewPagerActivity extends PreferenceActivity implements
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
-        boolean serviceChecked = prefs.getBoolean("pref_sync", true);
+        boolean serviceChecked = prefs.getBoolean(getString(R.string.pref_key),
+                true);
 
         handleServiceActivation(serviceChecked);
 
@@ -44,8 +45,8 @@ public class ViewPagerActivity extends PreferenceActivity implements
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
             String key) {
 
-        boolean serviceChecked = sharedPreferences
-                .getBoolean("pref_sync", true);
+        boolean serviceChecked = sharedPreferences.getBoolean(
+                getString(R.string.pref_key), true);
         handleServiceActivation(serviceChecked);
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Wifi DisplayUnlocker</string>
+    <string name="app_name">Wifi Display Unlocker</string>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <string name="wifi">WiFi</string>
@@ -9,5 +9,6 @@
     <string name="pref_activate">Activate Service</string>
     <string name="pref_activate_summ">disable screen lock in wifi</string>
 	<string name="pref_title">WiFi Display Unlock Settings</string>
+	<string name="pref_key">pref_sync</string>
     
 </resources>
