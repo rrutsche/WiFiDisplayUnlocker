@@ -9,6 +9,7 @@
     <string name="pref_activate">Activate Service</string>
     <string name="pref_activate_summ">disable screen lock in wifi</string>
 	<string name="pref_title">WiFi Display Unlock Settings</string>
+	<string name="pref_title_wifilist">Available WiFi Connections</string>
 	<string name="pref_key">pref_sync</string>
     
 </resources>

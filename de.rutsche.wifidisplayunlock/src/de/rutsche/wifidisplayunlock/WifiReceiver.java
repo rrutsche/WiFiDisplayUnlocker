@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
-import de.rutsche.wifidisplayunlock.service.WifiService;
 import de.rutsche.wifidisplayunlock.util.ApplicationManager;
 
 public class WifiReceiver extends BroadcastReceiver {
@@ -33,7 +32,7 @@ public class WifiReceiver extends BroadcastReceiver {
         } else if (networkInfo != null
                 && networkInfo.getType() != ConnectivityManager.TYPE_WIFI) {
             // no connection
-            c.stopService(new Intent(c, WifiService.class));
+            ApplicationManager.getInstance().getLock().reenableKeyguard();
         }
     }
 }

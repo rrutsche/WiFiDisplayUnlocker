@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-	 <PreferenceCategory 
-        android:title="@string/pref_title"
-        android:key="pref_key_storage_settings">
-	     
-    <CheckBoxPreference
-        
-        android:defaultValue="true"
-        android:key="pref_sync"
-        android:summary="@string/pref_activate_summ"
-        android:title="@string/pref_activate" />
-	     
-	 </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_settings"
+        android:title="@string/pref_title" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_sync"
+            android:summary="@string/pref_activate_summ"
+            android:title="@string/pref_activate" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_key_settins_wifilist"
+        android:title="@string/pref_title_wifilist">
+    </PreferenceCategory>
 
 </PreferenceScreen>
