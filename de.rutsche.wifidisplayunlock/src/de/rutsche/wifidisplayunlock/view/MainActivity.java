@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import de.rutsche.wifidisplayunlock.R;
-import de.rutsche.wifidisplayunlock.service.WifiService;
+import de.rutsche.wifidisplayunlock.util.ApplicationManager;
 
 public class MainActivity extends PreferenceActivity implements
         SharedPreferences.OnSharedPreferenceChangeListener {
@@ -20,10 +20,6 @@ public class MainActivity extends PreferenceActivity implements
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
-        if (intent == null) {
-            intent = new Intent(this, WifiService.class);
-        }
-
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
         boolean serviceChecked = prefs.getBoolean(getString(R.string.pref_key),
@@ -34,6 +30,7 @@ public class MainActivity extends PreferenceActivity implements
     }
 
     private void handleServiceActivation(boolean serviceChecked) {
+        intent = ApplicationManager.getInstance().getServiceIntent();
         if (serviceChecked) {
             startService(intent);
         } else {
